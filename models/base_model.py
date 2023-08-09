@@ -1,13 +1,19 @@
+"""
+base_model module :
+this module contain BaseModel class this class consider
+our base calss for our AirBnB project.
+"""
+
 from uuid import uuid4
 from datetime import datetime
-
-from init import storage
+from models import storage
 
 
 class BaseModel():
     """Base Model Class"""
 
     def __init__(self, *args, **kwargs):
+        """constructor"""
         if kwargs:
             for key, value in kwargs.items():
                 if key == '__class__':
@@ -44,23 +50,3 @@ class BaseModel():
         new_dict['created_at'] = self.created_at.isoformat()
         new_dict['updated_at'] = self.updated_at.isoformat()
         return new_dict
-
-
-
-def main():
-    all_objs = storage.all()
-    print("-- Reloaded objects --")
-    for obj_id in all_objs.keys():
-        obj = all_objs[obj_id]
-        print(obj)
-
-    print("-- Create a new object --")
-    my_model = BaseModel()
-    my_model.name = "My_First_Model"
-    my_model.my_number = 89
-    my_model.save()
-    print(my_model)
-
-
-if __name__ == "__main__":
-    main()
