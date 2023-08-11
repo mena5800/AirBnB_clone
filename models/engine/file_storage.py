@@ -17,27 +17,29 @@ class FileStorage:
 
     def all(self):
         "returns the dictionary __objects"
-
         return FileStorage.__objects
 
     def new(self, obj):
         "sets in __objects the obj with key <obj class name>.id"
-
         FileStorage.__objects["{}.{}".format(
-            "BaseModel", obj.id)] = obj.to_dict()
+            obj.__class__.__name__, str(obj.id))] = obj
 
     def save(self):
         "serializes __objects to the JSON file (path: __file_path)"
-
         with open(FileStorage.__file_path, "w") as f:
-
-            json.dump(FileStorage.__objects, f)
+            new_dict = {}
+            for key, value in FileStorage.__objects.items():
+                obj_dict = value.to_dict()
+                new_dict[key] = obj_dict
+            json.dump(new_dict, f)
 
     def reload(self):
         """deserializes the JSON file to __objects (only if the JSON file
         (__file_path) exists; otherwise, do nothing. If the file doesn't exist,
         no exception should be raised)"""
-
         if os.path.exists(FileStorage.__file_path):
             with open(FileStorage.__file_path, "r") as f:
-                FileStorage.__objects = json.load(f)
+                json_obj = json.load(f)
+                for k, v in json_obj.items():
+                    FileStorage.__objects[k] = eval(
+                        v['__class__'])(**v)
