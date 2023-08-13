@@ -15,6 +15,7 @@ from models.state import State
 from models.user import User
 
 
+
 class HBNBCommand(cmd.Cmd):
     """
     console class to control our program using terminal.
@@ -89,42 +90,46 @@ class HBNBCommand(cmd.Cmd):
         """  Prints all string representation of all instances"""
         if len(arg) == 0:
             print([str(k) for k in storage.all().values()])
-        elif arg not in self.classes:
+        elif arg not in self.class_dict:
             print("** class doesn't exist **")
         else:
             list_of_values = []
             for k, v in storage.all().items():
                 if arg in k:
-                    list_of_values.append(v)
-                print(list_of_values)
+                    list_of_values.append(str(v))
+            print(list_of_values)
 
     def do_update(self, arg):
         """Updates an instance"""
         list_of_args = arg.split()
-        if len(arg) == 0:
+        if len(list_of_args) == 0:
             print('** class name missing **')
             return
+        
         elif list_of_args[0] not in self.class_dict:
             print("** class doesn't exist **")
-        elif len(arg) == 1:
+        elif len(list_of_args) == 1:
             print('** instance id missing **')
-        else:
-            key = list_of_args[0] + "." + list_of_args[1]
-            if key in storage.all():
-                if len(list_of_args > 2):
-                    if len(list_of_args == 3):
-                        print('** value missing **')
-                    else:
-                        setattr(
-                            storage.all()[key],
-                            arg[2],
-                            arg[3][1, -1]  # remove quotes from value
-                        )
-                        storage.all()[key].save()
-                else:
-                    print('** attribute name missing **')
-            else:
-                print('** no instance found **')
+            
+        ids = set()
+        
+        for value in storage.all().values():
+            if value.__class__.__name__ == list_of_args[0]:
+                ids.add(value.id)
+ 
+        if list_of_args[1] not in ids:
+            print("** no instance found **")
+        elif len(list_of_args) == 2:
+            print("** attribute name missing **")
+        elif len(list_of_args) == 3:
+            print("** value missing **")
+        elif len(list_of_args) == 4:
+            for value in storage.all().values():
+                if value.id == list_of_args[1]:
+                    # if (value.__dict__.get(list_of_args[2],None)) != None:
+                    value.__dict__[list_of_args[2]] = list_of_args[3][1:-1]
+                    storage.save()
+
 
 
 if __name__ == "__main__":
