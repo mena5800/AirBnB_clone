@@ -82,7 +82,7 @@ class HBNBCommand(cmd.Cmd):
             if key in storage.all():
                 storage.all().pop(key)
                 storage.save()
-                #remove from class.objects list
+                # remove from class.objects list
             else:
                 print('** no instance found **')
                 return
@@ -127,7 +127,10 @@ class HBNBCommand(cmd.Cmd):
         elif len(list_of_args) == 4:
             for value in storage.all().values():
                 if value.id == list_of_args[1]:
-                    value.__dict__[list_of_args[2]] = list_of_args[3][1:-1]
+                    if list_of_args[3][0] in ['"', "'"]:
+                        list_of_args[3] = list_of_args[3][1:-1]
+
+                    value.__dict__[list_of_args[2]] = list_of_args[3]
                     storage.save()
 
     def default(self, line):
@@ -157,6 +160,15 @@ class HBNBCommand(cmd.Cmd):
                         print("*** id not found***")
                     else:
                         my_class.destroy(arguments[0].split()[0][1:-1])
+                elif method_name == "update":
+                    arguments = arguments[0].split(",")
+                    id = arguments[0][1:-1]
+                    attribute = arguments[1][1:-1]
+                    value = arguments[2]
+                    if value[0] in ["'", '"']:
+                        value = value[1:-1]
+
+                    my_class.update(id, attribute, value)
                 else:
                     print("*** Unknown syntax: {}".format(line))
 

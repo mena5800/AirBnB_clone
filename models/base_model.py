@@ -76,6 +76,11 @@ class BaseModel():
     @classmethod
     def update(self, id, attribute_name, attribute_value):
         """to update the object attributes """
+
+        for value in storage.all().values():
+            if value.id == id:
+                value.__dict__[attribute_name] = attribute_value
+                storage.save()
         for object in self.objects:
             if object.id == id:
                 object.__dict__[attribute_name] = attribute_value
