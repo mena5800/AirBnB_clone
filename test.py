@@ -1,9 +1,17 @@
+"""
+test file
+"""
+
 from models import storage
 from models.base_model import BaseModel
 
 print(storage)
 
+
 def main():
+    """
+    function to test our project
+    """
     all_objs = storage.all()
     print("-- Reloaded objects --")
     for obj_id in all_objs.keys():

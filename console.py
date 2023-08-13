@@ -8,6 +8,7 @@ from models.base_model import BaseModel
 from models import storage
 from models.user import User
 
+
 class HBNBCommand(cmd.Cmd):
     """"""
     prompt = "(hbnb) "
@@ -22,7 +23,7 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def do_create(self, arg):
-        """Creates a new instance of BaseModel"""        
+        """Creates a new instance of BaseModel"""
         if len(arg) == 0:
             print('** class name missing **')
             return
@@ -35,7 +36,7 @@ class HBNBCommand(cmd.Cmd):
                     new = self.class_dict[arg]()
                     new.save()
                     print(new.id)
-            
+
     def do_show(self, arg):
         """ Prints string representation"""
         list_of_args = arg.split()
@@ -53,7 +54,7 @@ class HBNBCommand(cmd.Cmd):
                 print('** no instance found **')
         else:
             print('** instance id missing **')
-            
+
     def do_destroy(self, arg):
         """Deletes an instance"""
         list_of_args = arg.split()
@@ -70,7 +71,7 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print('** no instance found **')
                 return
-            
+
     def do_all(self, arg):
         """  Prints all string representation of all instances"""
         if len(arg) == 0:
@@ -83,7 +84,7 @@ class HBNBCommand(cmd.Cmd):
                 if arg in k:
                     list_of_values.append(v)
                 print(list_of_values)
-            
+
     def do_update(self, arg):
         """Updates an instance"""
         list_of_args = arg.split()
@@ -100,17 +101,18 @@ class HBNBCommand(cmd.Cmd):
                 if len(list_of_args > 2):
                     if len(list_of_args == 3):
                         print('** value missing **')
-                    else: 
+                    else:
                         setattr(
                             storage.all()[key],
                             arg[2],
-                            arg[3][1,-1] #remove quotes from value
+                            arg[3][1, -1]  # remove quotes from value
                         )
                         storage.all()[key].save()
                 else:
                     print('** attribute name missing **')
             else:
                 print('** no instance found **')
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()

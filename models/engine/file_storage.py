@@ -39,7 +39,8 @@ class FileStorage:
         no exception should be raised)"""
         if os.path.exists(FileStorage.__file_path):
             with open(FileStorage.__file_path, "r") as f:
-                json_obj = json.load(f)
-                for k, v in json_obj.items():
-                    FileStorage.__objects[k] = eval(
-                        v['__class__'])(**v)
+                # json_obj = json.load(f)
+                # for k, v in json_obj.items():
+                #     FileStorage.__objects[k] = eval(
+                #         v['__class__'])(**v)
+                FileStorage.__objects = json.load(f)
