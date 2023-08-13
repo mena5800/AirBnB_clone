@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """
 base_model module :
 this module contain BaseModel class this class consider
@@ -10,7 +11,10 @@ from models import storage
 
 
 class BaseModel():
-    """Base Model Class"""
+    """Base Model Class:
+    this class has a lot of functions and consider the base class of
+    many others classe.
+    """
 
     def __init__(self, *args, **kwargs):
         """constructor"""

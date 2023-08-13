@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """
 file_storage module :
 this module has class FileStorage that use to store instances in json file

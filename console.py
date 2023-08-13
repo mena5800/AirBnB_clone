@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """
 console module :
 this module contain class HBNBCommand that inherit from CMD class in cmd
@@ -10,7 +11,9 @@ from models.user import User
 
 
 class HBNBCommand(cmd.Cmd):
-    """"""
+    """
+    console class to control our program using terminal.
+    """
     prompt = "(hbnb) "
     class_dict = {'BaseModel': BaseModel, 'User': User}
 
