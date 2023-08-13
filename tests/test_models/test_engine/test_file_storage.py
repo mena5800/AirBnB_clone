@@ -30,13 +30,13 @@ class FileStorageTests(unittest.TestCase):
         self.assertEqual(hasattr(FileStorage, '__objects'), True)
         self.assertEqual(hasattr(FileStorage, '__file_path'), True)
 
-    def testsave(self):
+    def testSave(self):
         """test JSON existence"""
         self.new_base.save()
         self.assertEqual(storage.all(), storage.__objects)
         self.assertEqual(os.path.exists(storage.__file_path), True)
 
-    def testreload(self):
+    def testReload(self):
         """test reload """
         self.new_base.save()
         self.assertEqual(os.path.exists(storage.__file_path), True)
@@ -55,7 +55,7 @@ class FileStorageTests(unittest.TestCase):
 
         self.assertEqual(str(e.exception), msg)
 
-    def test_save_FileStorage(self):
+    def testSaveFileStorage(self):
         """ Test 'new' method """
         var1 = self.new_base.to_dict()
         new_key = var1['__class__'] + "." + var1['id']
@@ -65,6 +65,35 @@ class FileStorageTests(unittest.TestCase):
         new = var2[new_key]
         for key in new:
             self.assertEqual(var1[key], new[key])
+
+    def testStoreBaseModel2(self):
+        """ Test save, reload and update methods """
+        self.new_base.my_name = "Nam1"
+        self.new_base.save()
+        base_dict = self.new_base.to_dict()
+        all_objs = storage.all()
+
+        key = base_dict['__class__'] + "." + base_dict['id']
+
+        self.assertEqual(key in all_objs, True)
+        self.assertEqual(base_dict['my_name'], "Nam1")
+
+        create = base_dict['created_at']
+        update = base_dict['updated_at']
+
+        self.new_base.my_name = "Nam2"
+        self.new_base.save()
+        base_dict = self.new_base.to_dict()
+        all_objs = storage.all()
+
+        self.assertEqual(key in all_objs, True)
+
+        create2 = base_dict['created_at']
+        update2 = base_dict['updated_at']
+
+        self.assertEqual(create, create2)
+        self.assertNotEqual(update, update2)
+        self.assertEqual(base_dict['my_name'], "Nam2")
 
 
 if __name__ == '__main__':
