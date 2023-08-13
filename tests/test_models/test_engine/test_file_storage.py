@@ -27,22 +27,22 @@ class FileStorageTests(unittest.TestCase):
 
     def testHasAttributes(self):
         """test attr existence"""
-        self.assertEqual(hasattr(FileStorage, '_FileStorage__objects'), True)
-        self.assertEqual(hasattr(FileStorage, '_FileStorage__file_path'), True)
+        self.assertEqual(hasattr(FileStorage, '__objects'), True)
+        self.assertEqual(hasattr(FileStorage, '__file_path'), True)
 
     def testsave(self):
         """test JSON existence"""
         self.new_base.save()
-        self.assertEqual(storage.all(), storage._FileStorage__objects)
-        self.assertEqual(os.path.exists(storage._FileStorage__file_path), True)
+        self.assertEqual(storage.all(), storage.__objects)
+        self.assertEqual(os.path.exists(storage.__file_path), True)
 
     def testreload(self):
         """test reload """
         self.new_base.save()
-        self.assertEqual(os.path.exists(storage._FileStorage__file_path), True)
+        self.assertEqual(os.path.exists(storage.__file_path), True)
         all_objects = storage.all()
-        FileStorage._FileStorage__objects = {}
-        self.assertNotEqual(all_objects, FileStorage._FileStorage__objects)
+        FileStorage.__objects = {}
+        self.assertNotEqual(all_objects, FileStorage.__objects)
         storage.reload()
         for key, value in storage.all().items():
             self.assertEqual(all_objects[key].to_dict(), value.to_dict())
