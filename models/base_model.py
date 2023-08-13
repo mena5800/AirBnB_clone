@@ -19,17 +19,12 @@ class BaseModel():
     def __init__(self, *args, **kwargs):
         """constructor"""
         if kwargs:
+            f = "%Y-%m-%dT%H:%M:%S.%f"
             for key, value in kwargs.items():
-                if key == '__class__':
-                    continue
-                elif key == 'id':
-                    self.id = value
-                elif key == 'created_at':
-                    self.created_at = datetime.strptime(
-                        value, '%Y-%m-%dT%H:%M:%S.%f')
-                elif key == 'updated_at':
-                    self.updated_at = datetime.strptime(
-                        value, '%Y-%m-%dT%H:%M:%S.%f')
+                if key == 'created_at' or key == 'updated_at':
+                    value = datetime.strptime(kwargs[key], f)
+                if key != '__class__':
+                    setattr(self, key, value)
         else:
             self.id = str(uuid4())
             self.created_at = datetime.now()
