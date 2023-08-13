@@ -38,8 +38,15 @@ class FileStorage:
         no exception should be raised)"""
         from models.user import User
         from models.base_model import BaseModel
+        from models.amenity import Amenity
+        from models.city import City
+        from models.state import State
+        from models.review import Review
+        from models.place import Place
 
-        dct = {'BaseModel': BaseModel, 'User': User}
+        dct = {'BaseModel': BaseModel, 'User': User, 'Place': Place,
+               "State": State, "City": City, "Amenity": Amenity,
+               "Review": Review}
 
         if os.path.exists(FileStorage.__file_path) is True:
             with open(FileStorage.__file_path, 'r') as f:
