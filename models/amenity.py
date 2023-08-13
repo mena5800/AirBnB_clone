@@ -10,3 +10,4 @@ class Amenity(BaseModel):
     class and has a public class attribute name
     """
     name = ""
+    objects = []

@@ -5,6 +5,7 @@ this module contain class HBNBCommand that inherit from CMD class in cmd
 module, it is considered the terminal of our airBnB project.
 """
 import cmd
+import re
 from models import storage
 from models.base_model import BaseModel
 from models.amenity import Amenity
@@ -13,7 +14,6 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
-
 
 
 class HBNBCommand(cmd.Cmd):
@@ -35,7 +35,7 @@ class HBNBCommand(cmd.Cmd):
 
     def emptyline(self):
         pass
-    
+
     def do_create(self, arg):
         """Creates a new instance of BaseModel"""
         if len(arg) == 0:
@@ -99,24 +99,26 @@ class HBNBCommand(cmd.Cmd):
                     list_of_values.append(str(v))
             print(list_of_values)
 
+        BaseModel.destroy("d")
+
     def do_update(self, arg):
         """Updates an instance"""
         list_of_args = arg.split()
         if len(list_of_args) == 0:
             print('** class name missing **')
             return
-        
+
         elif list_of_args[0] not in self.class_dict:
             print("** class doesn't exist **")
         elif len(list_of_args) == 1:
             print('** instance id missing **')
-            
+
         ids = set()
-        
+
         for value in storage.all().values():
             if value.__class__.__name__ == list_of_args[0]:
                 ids.add(value.id)
- 
+
         if list_of_args[1] not in ids:
             print("** no instance found **")
         elif len(list_of_args) == 2:
@@ -130,6 +132,30 @@ class HBNBCommand(cmd.Cmd):
                     value.__dict__[list_of_args[2]] = list_of_args[3][1:-1]
                     storage.save()
 
+    def default(self, line):
+        class_name = re.findall(r'^[^\.]*', line)
+        method_name = re.findall(r'\.([^(]+)', line)
+        arguments = re.findall(r'\(([^\)]+)', line)
+        if len(class_name) == 0 or len(method_name) == 0:
+            print("*** Unknown syntax: {}".format(line))
+        else:
+            class_name = class_name[0]
+            method_name = method_name[0]
+            my_class = self.class_dict.get(class_name, None)
+            if my_class is None:
+                print("*** Unknown syntax: {}".format(line))
+            else:
+                if method_name == "count":
+                    my_class.count()
+                elif method_name == 'all':
+                    my_class.all()
+                elif method_name == "show":
+                    if len(arguments) == 0:
+                        print("*** id not found***")
+                    else:
+                        my_class.show(arguments[0].split()[0][1:-1])
+                else:
+                    print("*** Unknown syntax: {}".format(line))
 
 
 if __name__ == "__main__":
