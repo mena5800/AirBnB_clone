@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 """
 file_storage module :
 this module has class FileStorage that use to store instances in json file
@@ -38,10 +37,12 @@ class FileStorage:
         """deserializes the JSON file to __objects (only if the JSON file
         (__file_path) exists; otherwise, do nothing. If the file doesn't exist,
         no exception should be raised)"""
-        if os.path.exists(FileStorage.__file_path):
-            with open(FileStorage.__file_path, "r") as f:
-                # json_obj = json.load(f)
-                # for k, v in json_obj.items():
-                #     FileStorage.__objects[k] = eval(
-                #         v['__class__'])(**v)
-                FileStorage.__objects = json.load(f)
+        from models.user import User
+        from models.base_model import BaseModel
+
+        dct = {'BaseModel': BaseModel, 'User': User}
+
+        if os.path.exists(FileStorage.__file_path) is True:
+            with open(FileStorage.__file_path, 'r') as f:
+                for k, v in json.load(f).items():
+                    self.new(dct[v['__class__']](**v))
