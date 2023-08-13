@@ -25,6 +25,35 @@ class FileStorageTests(unittest.TestCase):
         key = base_dict['__class__'] + "." + base_dict['id']
         self.assertEqual(key in all_objects, True)
 
+    def testStoreBaseModel1(self):
+        """ Test save, reload and update methods """
+        self.new_base.my_name = "Nam1"
+        self.new_base.save()
+        base_dict = self.new_base.to_dict()
+        all_objs = storage.all()
+
+        key = base_dict['__class__'] + "." + base_dict['id']
+
+        self.assertEqual(key in all_objs, True)
+        self.assertEqual(base_dict['my_name'], "Nam1")
+
+        create = base_dict['created_at']
+        update = base_dict['updated_at']
+
+        self.new_base.my_name = "Nam2"
+        self.new_base.save()
+        base_dict = self.new_base.to_dict()
+        all_objs = storage.all()
+
+        self.assertEqual(key in all_objs, True)
+
+        create2 = base_dict['created_at']
+        update2 = base_dict['updated_at']
+
+        self.assertEqual(create, create2)
+        self.assertNotEqual(update, update2)
+        self.assertEqual(base_dict['my_name'], "Nam2")
+
     def testHasAttributes(self):
         """test attr existence"""
         self.assertEqual(hasattr(FileStorage, '__objects'), True)
@@ -65,35 +94,6 @@ class FileStorageTests(unittest.TestCase):
         new = var2[new_key]
         for key in new:
             self.assertEqual(var1[key], new[key])
-
-    def testStoreBaseModel2(self):
-        """ Test save, reload and update methods """
-        self.new_base.my_name = "Nam1"
-        self.new_base.save()
-        base_dict = self.new_base.to_dict()
-        all_objs = storage.all()
-
-        key = base_dict['__class__'] + "." + base_dict['id']
-
-        self.assertEqual(key in all_objs, True)
-        self.assertEqual(base_dict['my_name'], "Nam1")
-
-        create = base_dict['created_at']
-        update = base_dict['updated_at']
-
-        self.new_base.my_name = "Nam2"
-        self.new_base.save()
-        base_dict = self.new_base.to_dict()
-        all_objs = storage.all()
-
-        self.assertEqual(key in all_objs, True)
-
-        create2 = base_dict['created_at']
-        update2 = base_dict['updated_at']
-
-        self.assertEqual(create, create2)
-        self.assertNotEqual(update, update2)
-        self.assertEqual(base_dict['my_name'], "Nam2")
 
 
 if __name__ == '__main__':
