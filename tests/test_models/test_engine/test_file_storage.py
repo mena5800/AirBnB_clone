@@ -59,13 +59,13 @@ class FileStorageTests(unittest.TestCase):
         self.assertEqual(hasattr(FileStorage, '__objects'), True)
         self.assertEqual(hasattr(FileStorage, '__file_path'), True)
 
-    def testSave(self):
+    def testsave(self):
         """test JSON existence"""
         self.new_base.save()
         self.assertEqual(storage.all(), storage.__objects)
         self.assertEqual(os.path.exists(storage.__file_path), True)
 
-    def testReload(self):
+    def testreload(self):
         """test reload """
         self.new_base.save()
         self.assertEqual(os.path.exists(storage.__file_path), True)
@@ -84,7 +84,7 @@ class FileStorageTests(unittest.TestCase):
 
         self.assertEqual(str(e.exception), msg)
 
-    def testSaveFileStorage(self):
+    def test_save_FileStorage(self):
         """ Test 'new' method """
         var1 = self.new_base.to_dict()
         new_key = var1['__class__'] + "." + var1['id']
