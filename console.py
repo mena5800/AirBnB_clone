@@ -99,7 +99,6 @@ class HBNBCommand(cmd.Cmd):
                     list_of_values.append(str(v))
             print(list_of_values)
 
-
     def do_update(self, arg):
         """Updates an instance"""
         list_of_args = arg.split()
@@ -131,30 +130,30 @@ class HBNBCommand(cmd.Cmd):
                     value.__dict__[list_of_args[2]] = list_of_args[3][1:-1]
                     storage.save()
 
-    def default(self, line):
-        class_name = re.findall(r'^[^\.]*', line)
-        method_name = re.findall(r'\.([^(]+)', line)
-        arguments = re.findall(r'\(([^\)]+)', line)
-        if len(class_name) == 0 or len(method_name) == 0:
-            print("*** Unknown syntax: {}".format(line))
-        else:
-            class_name = class_name[0]
-            method_name = method_name[0]
-            my_class = self.class_dict.get(class_name, None)
-            if my_class is None:
-                print("*** Unknown syntax: {}".format(line))
-            else:
-                if method_name == "count":
-                    my_class.count()
-                elif method_name == 'all':
-                    my_class.all()
-                elif method_name == "show":
-                    if len(arguments) == 0:
-                        print("*** id not found***")
-                    else:
-                        my_class.show(arguments[0].split()[0][1:-1])
-                else:
-                    print("*** Unknown syntax: {}".format(line))
+    # def default(self, line):
+    #     class_name = re.findall(r'^[^\.]*', line)
+    #     method_name = re.findall(r'\.([^(]+)', line)
+    #     arguments = re.findall(r'\(([^\)]+)', line)
+    #     if len(class_name) == 0 or len(method_name) == 0:
+    #         print("*** Unknown syntax: {}".format(line))
+    #     else:
+    #         class_name = class_name[0]
+    #         method_name = method_name[0]
+    #         my_class = self.class_dict.get(class_name, None)
+    #         if my_class is None:
+    #             print("*** Unknown syntax: {}".format(line))
+    #         else:
+    #             if method_name == "count":
+    #                 my_class.count()
+    #             elif method_name == 'all':
+    #                 my_class.all()
+    #             elif method_name == "show":
+    #                 if len(arguments) == 0:
+    #                     print("*** id not found***")
+    #                 else:
+    #                     my_class.show(arguments[0].split()[0][1:-1])
+    #             else:
+    #                 print("*** Unknown syntax: {}".format(line))
 
 
 if __name__ == "__main__":
