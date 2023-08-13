@@ -82,6 +82,7 @@ class HBNBCommand(cmd.Cmd):
             if key in storage.all():
                 storage.all().pop(key)
                 storage.save()
+                #remove from class.objects list
             else:
                 print('** no instance found **')
                 return
@@ -151,6 +152,11 @@ class HBNBCommand(cmd.Cmd):
                         print("*** id not found***")
                     else:
                         my_class.show(arguments[0].split()[0][1:-1])
+                elif method_name == "destroy":
+                    if len(arguments) == 0:
+                        print("*** id not found***")
+                    else:
+                        my_class.destroy(arguments[0].split()[0][1:-1])
                 else:
                     print("*** Unknown syntax: {}".format(line))
 
