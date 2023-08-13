@@ -99,7 +99,6 @@ class HBNBCommand(cmd.Cmd):
                     list_of_values.append(str(v))
             print(list_of_values)
 
-        BaseModel.destroy("d")
 
     def do_update(self, arg):
         """Updates an instance"""
