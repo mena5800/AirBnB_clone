@@ -78,7 +78,6 @@ class BaseModel():
         """to update the object attributes """
 
         for value in storage.all().values():
-
             if value.id == id:
                 value.__dict__[attribute_name] = attribute_value
                 storage.save()

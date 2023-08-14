@@ -167,6 +167,7 @@ class HBNBCommand(cmd.Cmd):
 
                     my_dict = re.findall(r'{.+}', line)
                     if len(my_dict) != 0:
+                        my_dict[0] = my_dict[0].replace("'", '"')
                         my_dict = json.loads(my_dict[0])
                         my_class.update_dict(id, my_dict)
                     else:
