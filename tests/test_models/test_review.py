@@ -14,7 +14,8 @@ class TestReview(unittest.TestCase):
 
     def test_class_exists(self):
         """tests if class exists"""
-        self.assertEqual(str(type(self.new_review)), "<class 'models.review.Review'>")
+        self.assertEqual(str(type(self.new_review)),
+                         "<class 'models.review.Review'>")
 
     def test_user_inheritance(self):
         """test if Review is a subclass of BaseModel"""
@@ -37,6 +38,7 @@ class TestReview(unittest.TestCase):
         self.assertIsInstance(self.new_review.id, str)
         self.assertIsInstance(self.new_review.created_at, datetime.datetime)
         self.assertIsInstance(self.new_review.updated_at, datetime.datetime)
+
 
 if __name__ == '__main__':
     unittest.main()

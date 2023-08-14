@@ -14,7 +14,8 @@ class TestState(unittest.TestCase):
 
     def test_class_exists(self):
         """tests if class exists"""
-        self.assertEqual(str(type(self.new_state)), "<class 'models.state.State'>")
+        self.assertEqual(str(type(self.new_state)),
+                         "<class 'models.state.State'>")
 
     def test_user_inheritance(self):
         """test if State is a subclass of BaseModel"""
@@ -33,6 +34,7 @@ class TestState(unittest.TestCase):
         self.assertIsInstance(self.new_state.id, str)
         self.assertIsInstance(self.new_state.created_at, datetime.datetime)
         self.assertIsInstance(self.new_state.updated_at, datetime.datetime)
+
 
 if __name__ == '__main__':
     unittest.main()

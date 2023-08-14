@@ -7,6 +7,7 @@ from models import storage
 import os
 import json
 
+
 class FileStorageTests(unittest.TestCase):
     """test for file storage class"""
     new_base = BaseModel()
