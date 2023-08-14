@@ -6,6 +6,7 @@ module, it is considered the terminal of our airBnB project.
 """
 import cmd
 import re
+import json
 from models import storage
 from models.base_model import BaseModel
 from models.amenity import Amenity
@@ -163,12 +164,18 @@ class HBNBCommand(cmd.Cmd):
                 elif method_name == "update":
                     arguments = arguments[0].split(",")
                     id = arguments[0][1:-1]
-                    attribute = arguments[1][1:-1]
-                    value = arguments[2]
-                    if value[0] in ["'", '"']:
-                        value = value[1:-1]
 
-                    my_class.update(id, attribute, value)
+                    my_dict = re.findall(r'{.+}', line)
+                    if len(my_dict) != 0:
+                        my_dict = json.loads(my_dict[0])
+                        my_class.update_dict(id, my_dict)
+                    else:
+                        attribute = arguments[1][1:-1]
+                        value = arguments[2]
+                        if value[0] in ["'", '"']:
+                            value = value[1:-1]
+
+                        my_class.update(id, attribute, value)
                 else:
                     print("*** Unknown syntax: {}".format(line))
 

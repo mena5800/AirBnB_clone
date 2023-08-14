@@ -78,6 +78,7 @@ class BaseModel():
         """to update the object attributes """
 
         for value in storage.all().values():
+
             if value.id == id:
                 value.__dict__[attribute_name] = attribute_value
                 storage.save()
@@ -88,10 +89,10 @@ class BaseModel():
         print("** no instance found **")
 
     @classmethod
-    def update_dict(self, attribute_dict):
+    def update_dict(self, id, attribute_dict):
         """to update the object attributes from dict"""
-        for key, value in attribute_dict:
-            self.update(key, value)
+        for key, value in attribute_dict.items():
+            self.update(id, key, value)
 
     @classmethod
     def destroy(self, id):
