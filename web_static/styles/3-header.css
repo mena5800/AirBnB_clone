@@ -1,0 +1,18 @@
+
+header{
+    background-color: white;
+    height: 70px;
+    width: 100%;
+    border-bottom: 1px solid #CCCCCC;
+    display: flex;
+    align-items: center;
+}
+
+.header-icon{
+    display: inline-block;
+    width: 142px;
+    height: 60px;
+    margin-left: 20px;
+    background: center/cover no-repeat url("../images/logo.png");
+
+}
